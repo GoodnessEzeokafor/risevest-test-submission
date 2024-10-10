@@ -5,6 +5,7 @@ import { Request, Response } from 'express';
 import { IResponse, ResponseStateEnum } from 'src/shared';
 import { GetPostsQueryDto } from '../../dto';
 import { IGetPosts } from '../../type';
+import { UserEntity } from 'src/modules/user/entity';
 
 /**
  * Simple mock tests, in this case I just mocked one of the service and controller function
@@ -80,7 +81,7 @@ describe('PostController', () => {
       jest
         .spyOn(mockPostService, 'getPosts')
         .mockImplementation(() => Promise.resolve(result));
-      await controller.getPosts(mockRequest, mockQueryParams, mockResponse);
+      await controller.getPosts(mockRequest.user as unknown as UserEntity, mockQueryParams, mockResponse);
       expect(mockPostService.getPosts).toHaveBeenCalled();
       expect(mockResponse.json).toHaveBeenCalledWith(result);
     });
