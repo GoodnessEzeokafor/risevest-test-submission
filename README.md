@@ -1,110 +1,126 @@
+
 # RISEVEST SENIOR BACKEND TEST SUBMISSION
 
 ---
 
-## Task 
-[Risevest Senior Backend Test](https://github.com/risevest/senior-backend-test)
+## Table of Contents
+1. [Task Overview](#task-overview)
+2. [Project Structure](#project-structure)
+3. [Getting Started](#getting-started)
+4. [Submission Evaluation](#submission-evaluation)
+5. [Notes](#notes)
 
+---
+
+## Task Overview
+
+This submission is for the Risevest Senior Backend Test. The task involves creating a backend application that meets certain requirements and follows best practices.
+
+[Learn more about the task](https://github.com/risevest/senior-backend-test)
+
+---
+
+## Project Structure
+
+The project is divided into two main sections:
 
 ### Shared
 
-- **Where to Find**: `src/shared`
-- **What It Does**: Contains dto, types, enums that are shared across the different modules
+- **Location:** `src/shared`
+- **Purpose:** Contains data transfer objects (DTOs), types, and enums used across different modules
 
 ### Modules
 
-- **Where to Find**: `src/modules`
-- **What It Does**: The module folder contains the functionalities and features
+- **Location:** `src/modules`
+- **Purpose:** Houses the core functionalities and features of the application
 
+---
 
-## Getting Around the Codebase
+## Getting Started
 
-To easily navigate through the different parts of the codebase, you can follow these links:
+To begin working with the project, follow these steps:
 
-- [Modules](src/modules)
-- [Shared](src/shared)
-
-
-This structure is designed to make it easier for you to understand and navigate through the codebase, providing a clear and organized overview.
-
-### Getting Started with the Application
-
-Follow these simple steps to set up and run the application:
-
-1. **Clone the Repository**: First, you need to clone the repository to your local machine. Open your terminal and run the following command:
-
+1. Clone the repository:
    ```bash
    git clone https://github.com/GoodnessEzeokafor/risevest-test-submission.git
    ```
 
-2. **Install Dependencies**: Once the repository is cloned, navigate into the project directory and install the necessary packages. You can do this by running:
-
+2. Install dependencies:
    ```bash
    npm i
    ```
 
-3. **Configure Environment Variables**: Before running the application, you'll need to set up your environment variables. Copy the sample environment file and create a new `.env` file by running:
-
+3. Set up environment variables:
    ```bash
    cp .env.sample .env
    ```
+   Edit `.env` file with your configuration details
 
-   Then, open the `.env` file and fill in your specific configuration details.
-
-4. **Start the Server**: Finally, you're ready to start the server. Run the following command to start the application in development mode:
+4. Start the server:
    ```bash
    npm run start:dev
    ```
 
-Now, your application should be up and running! You can access it through your web browser or any API client at the address provided in the terminal.
+---
 
-### Submission Evaluation
+## Submission Evaluation
 
-To evaluate my submission, you can access the following resources:
+To assess the submission, refer to these resources:
 
-1. **Live API**: You can interact with the deployed API directly by visiting the [Live URL](https://risevest-test-submission-production.up.railway.app). This will allow you to see the application in action and test its functionality.
+1. **Live API:** 
+   [https://risevest-test-submission-production.up.railway.app](https://risevest-test-submission-production.up.railway.app)
 
-2. **Source Code**: The complete source code for this submission is available on [GitHub](https://github.com/GoodnessEzeokafor/risevest-test-submission). You can review the code, run it locally, or contribute to the project if you wish.
+2. **Source Code:**
+   [GitHub Repository](https://github.com/GoodnessEzeokafor/risevest-test-submission)
 
-3. **API Documentation**: For detailed information on the API endpoints, including request and response formats, you can refer to the [Postman Documentation](https://documenter.getpostman.com/view/24047717/2sA2xpU9fv). This documentation provides a comprehensive guide to understanding and using the API effectively.
+3. **API Documentation:**
+   [Postman Documentation](https://documenter.getpostman.com/view/24047717/2sA2xpU9fv)
 
+---
 
+## Optimized Query
 
-- **Optimized Query**
-  Used in [TopPost](src/modules/post/post.service.ts)
+This SQL query is used in the `TopPost` service:
 
 ```sql
 WITH latest_comments AS (
-        SELECT posts."userId", posts.id AS postId, MAX(comments."createdAt") AS latestCommentTime
-        FROM posts
-        LEFT JOIN comments ON posts.id = comments."postId"
-        GROUP BY posts."userId", posts.id
-    ),
-    user_posts_count AS (
-        SELECT posts."userId", COUNT(*) AS postCount
-        FROM posts
-        GROUP BY posts."userId"
-    ),
-    ranked_users AS (
-        SELECT u.id, u."fullName", p.title, c.comment, uc.postCount,
-               ROW_NUMBER() OVER (ORDER BY uc.postCount DESC) AS rank
-        FROM users u
-        JOIN posts p ON u.id = p."userId"
-        JOIN latest_comments lc ON p.id = lc.postId
-        JOIN comments c ON lc.postId = c."postId" AND lc.latestCommentTime = c."createdAt"
-        JOIN user_posts_count uc ON u.id = uc."userId"
-    )
-    SELECT id, "fullName", title, "comment"
-    FROM ranked_users
-    WHERE rank <= 3;
+    SELECT posts."userId", posts.id AS postId, MAX(comments."createdAt") AS latestCommentTime
+    FROM posts
+    LEFT JOIN comments ON posts.id = comments."postId"
+    GROUP BY posts."userId", posts.id
+),
+user_posts_count AS (
+    SELECT posts."userId", COUNT(*) AS postCount
+    FROM posts
+    GROUP BY posts."userId"
+),
+ranked_users AS (
+    SELECT u.id, u."fullName", p.title, c.comment, uc.postCount,
+           ROW_NUMBER() OVER (ORDER BY uc.postCount DESC) AS rank
+    FROM users u
+    JOIN posts p ON u.id = p."userId"
+    JOIN latest_comments lc ON p.id = lc.postId
+    JOIN comments c ON lc.postId = c."postId" AND lc.latestCommentTime = c."createdAt"
+    JOIN user_posts_count uc ON u.id = uc."userId"
+)
+SELECT id, "fullName", title, "comment"
+FROM ranked_users
+WHERE rank <= 3;
 ```
 
-### Run test
+---
 
-- Tests are stored in each controller folder
+## Testing
 
-```
+Tests are located in each controller folder. Run tests using:
+
+```bash
 npm run test
 ```
 
-These resources should provide you with a comprehensive view of my submission, allowing you to assess its quality and functionality.
+---
+
+## Notes
+
+* This submission uses NestJS modules instead of Uncle Bob's clean architecture principles, prioritizing simplicity over complexity.
+* Database queries are optimized using select statements and eager loading techniques.
