@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { Response } from 'express';
-import { HealthController } from '..';
+import { HealthController } from '../controller';
 
 /**
  * Simple mock tests, in this case I just mocked one of the service and controller function
