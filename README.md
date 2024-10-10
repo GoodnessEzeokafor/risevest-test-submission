@@ -71,7 +71,7 @@ To evaluate my submission, you can access the following resources:
 
 
 - **Optimized Query**
-  Used in [TopPost](src/services/use-case/post/post.service.ts)
+  Used in [TopPost](src/modules/post/post.service.ts)
 
 ```sql
 WITH latest_comments AS (
