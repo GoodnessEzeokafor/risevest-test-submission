@@ -120,7 +120,24 @@ npm run test
 
 ---
 
+Here's an improved version of the notes section:
+
 ## Notes
 
-* This submission uses NestJS modules instead of Uncle Bob's clean architecture principles, prioritizing simplicity over complexity.
-* Database queries are optimized using select statements and eager loading techniques.
+### Architecture Approach
+
+This submission adopts a modular approach using NestJS framework, deviating from traditional clean architecture principles. The decision was made to prioritize simplicity and rapid development over strict adherence to architectural patterns. This choice allows for quicker implementation and easier maintenance of the system.
+
+### Database Optimization Techniques
+
+The database layer employs several optimization strategies:
+
+1. **Select Statements**: Careful selection of columns and indexes ensures efficient data retrieval without unnecessary data transfer.
+
+2. **Eager Loading**: Related entities are loaded in advance to minimize the number of database queries required per operation.
+
+3. **TypeORM Methods**: Utilization of TypeORM's built-in methods `.findAndCount()` optimizes query execution.
+
+### Error Handling
+
+A robust error handling mechanism is implemented using NestJS's built-in `ExceptionFilter`. This filter provides consistent error responses across all routes, improving the overall user experience and facilitating easier debugging and monitoring of application issues.
