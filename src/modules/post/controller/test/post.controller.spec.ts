@@ -1,9 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { PostController } from '..';
 import { PostServices } from 'src/modules/post/post.service';
-import { IGetPosts, IResponse, ResponseState } from 'src/core';
 import { Request, Response } from 'express';
-import { GetPostsQueryDto } from 'src/core/dto';
+import { IResponse, ResponseStateEnum } from 'src/shared';
+import { GetPostsQueryDto } from '../../dto';
+import { IGetPosts } from '../../type';
 
 /**
  * Simple mock tests, in this case I just mocked one of the service and controller function
@@ -36,7 +37,7 @@ describe('PostController', () => {
       lastPage: 1,
       total: 1,
     },
-    state: ResponseState.SUCCESS,
+    state: ResponseStateEnum.SUCCESS,
     status: 200,
   };
   const mockRequest = {

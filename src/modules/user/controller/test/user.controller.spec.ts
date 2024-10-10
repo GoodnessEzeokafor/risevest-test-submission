@@ -1,16 +1,13 @@
 import { Test } from '@nestjs/testing';
-import { UserController } from '..';
-import {
-  IGetPosts,
-  // IDatabaseServices,
-  IGetUsers,
-  IResponse,
-  ResponseState,
-} from 'src/core';
+
 import { Response } from 'express';
-import { GetUsersQueryDto } from 'src/core/dto';
-import { UserServices } from 'src/modules/user/user.service';
-import { PostServices } from 'src/modules/post/post.service';
+import { UserController } from '..';
+import { IResponse, ResponseStateEnum } from 'src/shared';
+import { GetUsersQueryDto } from '../../dto';
+import { IGetUsers } from '../../type';
+import { IGetPosts } from 'src/modules/post/type';
+import { UserServices } from '../../user.service';
+import { PostServices } from 'src/modules/post';
 // import { PostServices } from 'src/services/use-case/post/post.service';
 // import { PostFactoryServices } from 'src/services/use-case/post/post-factory.service';
 // import { ErrorUtilsService, ResponseUtilsService } from 'src/services/utils';
@@ -48,7 +45,7 @@ describe('UserController', () => {
       lastPage: 1,
       total: 1,
     },
-    state: ResponseState.SUCCESS,
+    state: ResponseStateEnum.SUCCESS,
     status: 200,
   };
   const mockQueryParams = {} as GetUsersQueryDto;
